@@ -2,6 +2,7 @@ package com.example.placetovisit
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.Navigation
@@ -18,7 +19,7 @@ fun Navigation(modifier: Modifier,
             HomeScreen(modifier = Modifier,navController)
         }
         composable(Screen.AddPage.route) {
-            AddScreen(navController)
+            AddScreen(navController, viewModel())
         }
     }
 }
