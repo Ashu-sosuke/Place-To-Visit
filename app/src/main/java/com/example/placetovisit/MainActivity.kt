@@ -17,8 +17,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             PlaceToVisitTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    HomeScreen(Modifier.padding(innerPadding))
-                }
+                    Navigation(modifier = Modifier.padding(innerPadding))                }
             }
         }
     }

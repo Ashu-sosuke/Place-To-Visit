@@ -12,10 +12,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(modifier: Modifier) {
+fun HomeScreen(modifier: Modifier, navController: NavController) {
 
     Scaffold(
         topBar = {
@@ -25,7 +26,7 @@ fun HomeScreen(modifier: Modifier) {
         },
         floatingActionButton = {
             FloatingActionButton(onClick = {
-
+                navController.navigate(Screen.AddPage.route)
             }) { Icon(Icons.Default.Add, contentDescription = "Add") }
         }
     ){ innerPadding ->
