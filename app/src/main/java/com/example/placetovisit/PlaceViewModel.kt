@@ -1,12 +1,16 @@
 package com.example.placetovisit
 
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.placetovisit.data.Place
 import com.example.placetovisit.data.PlaceRepository
+import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
+import androidx.compose.runtime.State
+
 
 class PlaceViewModel(
     private val placeRepository: PlaceRepository = Graph.placeRepository
@@ -38,6 +42,13 @@ class PlaceViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             placeRepository.deleteAPlace(place = place)
         }
+    }
+
+    private val _selectedLatLng = mutableStateOf<LatLng?>(null)
+    val selectedLatLng: State<LatLng?> = _selectedLatLng
+
+    fun setSelectedLatLng(latLng: LatLng) {
+        _selectedLatLng.value = latLng
     }
 
 

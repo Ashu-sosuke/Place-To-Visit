@@ -9,17 +9,26 @@ import androidx.navigation.Navigation
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.google.android.gms.maps.model.LatLng
 
 @Composable
-fun Navigation(modifier: Modifier,
+fun Navigation(
+    modifier: Modifier,
     navController: NavHostController = rememberNavController()
-){
-    NavHost(navController = navController, startDestination = Screen.HomeScreen.route){
-        composable(Screen.HomeScreen.route){
-            HomeScreen(modifier = Modifier,navController)
+) {
+    val placeViewModel: PlaceViewModel = viewModel()
+    NavHost(navController = navController, startDestination = Screen.HomeScreen.route) {
+        composable(Screen.HomeScreen.route) {
+            HomeScreen(modifier = modifier, navController = navController)
         }
         composable(Screen.AddPage.route) {
-            AddScreen(navController, viewModel())
+            AddScreen(navController = navController, viewModel = placeViewModel)
+        }
+        composable(Screen.MapScreen.route) {
+            MapPickerScreen(
+                navController = navController,
+                viewModel = placeViewModel
+            )
         }
     }
 }

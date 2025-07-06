@@ -1,78 +1,43 @@
 package com.example.placetovisit
 
 import android.Manifest
-import android.R.attr.id
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.os.Build
+import android.provider.Settings
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.DateRange
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
-import androidx.compose.material3.DatePicker
-import androidx.compose.material3.DatePickerDialog
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.rememberBottomSheetScaffoldState
-import androidx.compose.material3.rememberDatePickerState
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.core.app.ActivityCompat.requestPermissions
 import androidx.core.content.FileProvider
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.placetovisit.data.Place
 import java.io.File
 import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
-import kotlin.text.insert
+import java.util.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddScreen(navController: NavController, viewModel: PlaceViewModel){
-
-    val snackMessage = remember { mutableStateOf("") }
-
-    val scope = rememberCoroutineScope()
-
-    val scaffoldState = rememberBottomSheetScaffoldState()
+fun AddScreen(navController: NavController, viewModel: PlaceViewModel) {
+    var showSettingsDialog by remember { mutableStateOf(false) }
 
     var title by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
     var date by remember { mutableStateOf("") }
     var location by remember { mutableStateOf("") }
-
 
     var imageUri by remember { mutableStateOf<Uri?>(null) }
     var showImagePicker by remember { mutableStateOf(false) }
@@ -90,7 +55,6 @@ fun AddScreen(navController: NavController, viewModel: PlaceViewModel){
             val savedUri = saveImageToDevice(context, it)
             imageUri = savedUri
         }
-
     }
 
     val cameraLauncher = rememberLauncherForActivityResult(
@@ -105,28 +69,6 @@ fun AddScreen(navController: NavController, viewModel: PlaceViewModel){
             val savedUri = saveImageToDevice(context, uri)
             imageUri = savedUri
         }
-
-    }
-
-    val permissionLauncher = rememberLauncherForActivityResult(
-        ActivityResultContracts.RequestMultiplePermissions()
-    ) { permissions ->
-        val granted = permissions.values.all { it }
-        if (granted) {
-            showImagePicker = true
-        } else {
-            Toast.makeText(context, "Permissions not granted", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    fun requestPermissions(context: Context) {
-        val permissions = mutableListOf(Manifest.permission.CAMERA)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            permissions.add(Manifest.permission.READ_MEDIA_IMAGES)
-        } else {
-            permissions.add(Manifest.permission.READ_EXTERNAL_STORAGE)
-        }
-        permissionLauncher.launch(permissions.toTypedArray())
     }
 
     fun launchCamera(context: Context) {
@@ -190,6 +132,29 @@ fun AddScreen(navController: NavController, viewModel: PlaceViewModel){
         }
     }
 
+    if (showSettingsDialog) {
+        AlertDialog(
+            onDismissRequest = { showSettingsDialog = false },
+            title = { Text("Permission Required") },
+            text = { Text("Camera and storage permissions are required. Please enable them in settings.") },
+            confirmButton = {
+                TextButton(onClick = {
+                    showSettingsDialog = false
+                    val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                    val uri = Uri.fromParts("package", context.packageName, null)
+                    intent.data = uri
+                    context.startActivity(intent)
+                }) {
+                    Text("Open Settings")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showSettingsDialog = false }) {
+                    Text("Cancel")
+                }
+            }
+        )
+    }
 
     Scaffold(
         topBar = {
@@ -198,14 +163,16 @@ fun AddScreen(navController: NavController, viewModel: PlaceViewModel){
                 navigationIcon = {
                     IconButton(onClick = {
                         navController.navigate(Screen.HomeScreen.route)
-                    }) {Icon(Icons.Default.ArrowBack, contentDescription = "Back") }
+                    }) {
+                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                    }
                 }
             )
         }
-    ) { innerpadding ->
+    ) { innerPadding ->
         Column(
             modifier = Modifier
-                .padding(innerpadding)
+                .padding(innerPadding)
                 .padding(16.dp)
         ) {
             OutlinedTextField(
@@ -234,21 +201,34 @@ fun AddScreen(navController: NavController, viewModel: PlaceViewModel){
                 readOnly = true,
                 trailingIcon = {
                     IconButton(onClick = { showDatePicker = true }) {
-                        Icon(
-                            imageVector = Icons.Default.DateRange,
-                            contentDescription = "Pick Date"
-                        )
+                        Icon(Icons.Default.DateRange, contentDescription = "Pick Date")
                     }
                 }
             )
 
             Spacer(modifier = Modifier.height(16.dp))
 
+            val selectedLatLng by viewModel.selectedLatLng
+
+            LaunchedEffect(selectedLatLng) {
+                selectedLatLng?.let {
+                    location = "${it.latitude}, ${it.longitude}"
+                }
+            }
+
             OutlinedTextField(
                 value = location,
                 onValueChange = { location = it },
-                label = { Text("location") },
-                modifier = Modifier.fillMaxWidth()
+                label = { Text("Location") },
+                modifier = Modifier.fillMaxWidth(),
+                readOnly = true,
+                trailingIcon = {
+                    Button(onClick = {
+                        navController.navigate(Screen.MapScreen.route)
+                    }) {
+                        Text("Pick")
+                    }
+                }
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -276,36 +256,45 @@ fun AddScreen(navController: NavController, viewModel: PlaceViewModel){
                 }
 
                 Button(onClick = {
-                    requestPermissions(context)
+                    requestPermissions(
+                        context = context,
+                        onPermissionGranted = {
+                            showImagePicker = true
+                        },
+                        onPermissionPermanentlyDenied = {
+                            showSettingsDialog = true
+                        }
+                    )
                 }) {
                     Text("Add Image")
                 }
             }
 
+            Spacer(modifier = Modifier.height(24.dp))
 
-                Button(
-                    onClick = {
-
-                        if (title.isNotBlank() && description.isNotBlank() && date.isNotBlank() && location.isNotBlank() && imageUri != null) {
-                            val newPlace = Place(
-                                title = title,
-                                description = description,
-                                date = date,
-                                location = location,
-                                imageUri = imageUri.toString()
-                            )
-                            viewModel.addPlace(newPlace)
-                            navController.navigate(Screen.HomeScreen.route)
-                        }else{
-                            Toast.makeText(context, "Please fill all field and add image", Toast.LENGTH_SHORT).show()
-                        }
-                    },
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text("Save")
+            Button(
+                onClick = {
+                    if (title.isNotBlank() && description.isNotBlank() && date.isNotBlank()
+                        && location.isNotBlank() && imageUri != null
+                    ) {
+                        val newPlace = Place(
+                            title = title,
+                            description = description,
+                            date = date,
+                            location = location,
+                            imageUri = imageUri.toString()
+                        )
+                        viewModel.addPlace(newPlace)
+                        navController.navigate(Screen.HomeScreen.route)
+                    } else {
+                        Toast.makeText(context, "Please fill all fields and add an image", Toast.LENGTH_SHORT).show()
+                    }
+                },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("Save")
             }
         }
-
     }
 }
 
@@ -317,16 +306,15 @@ fun convertMillisToDate(millis: Long): String {
 fun saveImageToDevice(context: Context, uri: Uri): Uri? {
     return try {
         val inputStream = context.contentResolver.openInputStream(uri)
-        val filename= "IMG_${System.currentTimeMillis()}.jpg"
+        val filename = "IMG_${System.currentTimeMillis()}.jpg"
         val file = File(context.filesDir, filename)
         val outputStream = file.outputStream()
         inputStream?.copyTo(outputStream)
         inputStream?.close()
-        outputStream?.close()
+        outputStream.close()
         Uri.fromFile(file)
-    }catch (e: Exception){
+    } catch (e: Exception) {
         e.printStackTrace()
         null
     }
 }
-

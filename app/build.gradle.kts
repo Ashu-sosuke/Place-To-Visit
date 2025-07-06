@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     id("com.google.devtools.ksp")
+    id ("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
 android {
@@ -42,6 +43,10 @@ android {
 
 dependencies {
 
+    implementation ("com.karumi:dexter:6.2.3")
+    implementation(libs.places)
+
+
     val room_version = "2.7.2"
 
     implementation("androidx.room:room-runtime:$room_version")
@@ -56,6 +61,16 @@ dependencies {
 
     implementation(platform("androidx.compose:compose-bom:2024.05.00"))
     implementation("androidx.compose.foundation:foundation")
+
+    implementation("com.google.android.gms:play-services-location:21.0.1")
+    implementation ("com.google.android.gms:play-services-maps:18.2.0")
+    implementation ("com.google.maps.android:maps-compose:2.11.4")
+    implementation("com.google.android.libraries.places:places:3.3.0")
+
+
+
+    implementation ("com.google.android.material:material:1.11.0")
+
 
 
     implementation(libs.androidx.core.ktx)
