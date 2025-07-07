@@ -27,8 +27,6 @@
 - [🛠 Tech Stack](#-tech-stack)
 - [📦 Download APK](#-download-apk)
 - [📸 Screenshots](#-screenshots)
-- [🙋‍♂️ Author](#-author)
-- [⚖️ License](#-license)
 
 ---
 
