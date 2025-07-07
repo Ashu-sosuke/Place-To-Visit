@@ -12,8 +12,8 @@ A modern and intuitive Android app to document and share your favorite travel sp
 - 🖼️ **Camera & Gallery Support**: Capture or pick an image for each place
 - 🗺️ **Map Picker**: Select location interactively using Google Maps
 - 📅 **Date Picker**: Choose visit date with Material date selector
-- 📂 **View & Edit Places**: Tap to edit any entry easily
-- 🧹 **Swipe to Delete**: Remove places with a swipe gesture
+- ✏️ **Tap to Edit**: Long press to enter selection mode and update or delete
+- 🧹 **Long Press to Delete**: Select place(s) via long press and remove them
 - 🎨 **Material 3 UI**: Clean, modern interface using Compose
 - 📱 **Responsive Layout**: Adapts across screen sizes and orientations
 
@@ -43,6 +43,14 @@ A modern and intuitive Android app to document and share your favorite travel sp
 You can [Download the latest APK here](https://github.com/YourUsername/PlaceToVisit/releases/latest).
 
 [![Download APK](https://img.shields.io/badge/Download-PlaceToVisit-blue)](https://github.com/YourUsername/PlaceToVisit/releases/latest)
+
+---
+
+## 📸 Screenshots
+
+> _Add screenshots later to visually showcase the UI_
+
+
 
 ---
 
