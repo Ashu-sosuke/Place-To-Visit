@@ -43,11 +43,6 @@ android {
 
 dependencies {
 
-// For normal Lottie animations
-    implementation("com.airbnb.android:lottie-compose:6.1.0")
-
-// For .lottie files and DotLottieAnimation
-    implementation("com.rajat.lottie:dotlottie-compose:1.0.0-beta05")
 
 
     implementation ("com.karumi:dexter:6.2.3")

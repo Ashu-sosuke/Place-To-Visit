@@ -1,5 +1,8 @@
 package com.example.placetovisit
 
+import android.content.Intent
+import android.net.Uri
+import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -13,7 +16,9 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -21,19 +26,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.FileProvider
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.example.placetovisit.data.Place
 import com.example.placetovisit.ui.theme.AdventureGradient
 import com.example.placetovisit.ui.theme.DarkEleganceGradient
+import androidx.core.net.toUri
+import java.io.File
 
-
+// No package or import changes
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
@@ -42,6 +51,7 @@ fun HomeScreen(
     navController: NavController,
     viewModel: PlaceViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
 ) {
+    val context = LocalContext.current
     val placeList by viewModel.getAllPlaces.collectAsState(initial = emptyList())
 
     var selectedPlaces by remember { mutableStateOf(setOf<Long>()) }
@@ -82,7 +92,43 @@ fun HomeScreen(
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
-                title = { Text("My Places", fontSize = 24.sp, fontFamily = FontFamily.Serif, fontWeight = FontWeight.ExtraBold) },
+                title = {
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        Text(
+                            "My Places",
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Bold,
+                            fontFamily = FontFamily.Serif
+                        )
+                        Text(
+                            "Explore. Remember. Share 🌍",
+                            fontSize = 12.sp,
+                            color = Color.DarkGray
+                        )
+                    }
+                },
+                navigationIcon = {
+                    Icon(
+                        painter = painterResource(id = R.drawable.baseline_location_city_24),
+                        contentDescription = "Logo",
+                        modifier = Modifier
+                            .size(32.dp)
+                            .padding(start = 12.dp)
+                    )
+                },
+                actions = {
+                    IconButton(onClick = {
+                        val youtubeUrl = "https://youtu.be/xvFZjo5PgG0?si=RIARkzm2G5697Txr"
+                        val intent = Intent(Intent.ACTION_VIEW, youtubeUrl.toUri())
+                        context.startActivity(intent)
+                    }) {
+                        Icon(
+                            imageVector = Icons.Default.AccountCircle,
+                            contentDescription = "Profile",
+                            tint = Color.Black
+                        )
+                    }
+                },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = Color(0xFFB5C6E0),
                     titleContentColor = Color.Black
@@ -101,7 +147,12 @@ fun HomeScreen(
             } else {
                 ExtendedFloatingActionButton(
                     text = { Text("Delete (${selectedPlaces.size})") },
-                    icon = { Icon(Icons.Default.Add, contentDescription = null) },
+                    icon = {
+                        Icon(
+                            painter = painterResource(id = R.drawable.baseline_delete_24),
+                            contentDescription = null
+                        )
+                    },
                     onClick = { showDeleteDialog = true },
                     containerColor = Color(0xFFFF6F61),
                     contentColor = Color.White
@@ -168,6 +219,7 @@ fun PlaceCard(
     isSelected: Boolean = false
 ) {
     var visible by remember { mutableStateOf(false) }
+    val context = LocalContext.current
 
     LaunchedEffect(Unit) {
         visible = true
@@ -227,6 +279,48 @@ fun PlaceCard(
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.End
+                ) {
+                    IconButton(onClick = {
+                        val imageUri = place.imageUri.toUri()
+
+                        val shareIntent = Intent(Intent.ACTION_SEND).apply {
+                            type = "image/*"
+                            putExtra(Intent.EXTRA_STREAM, imageUri)
+                            putExtra(
+                                Intent.EXTRA_TEXT,
+                                """
+                📍 ${place.title}
+                
+                🗺 Location: ${place.location}
+                📅 Date: ${place.date}
+                📝 Description: ${place.description}
+                
+                Shared via PlaceToVisit App
+            """.trimIndent()
+                            )
+                            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                        }
+
+                        try {
+                            context.startActivity(Intent.createChooser(shareIntent, "Share this place"))
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                            Toast.makeText(context, "Failed to open share dialog", Toast.LENGTH_SHORT).show()
+                        }
+                    }) {
+                        Icon(
+                            imageVector = Icons.Default.Share,
+                            contentDescription = "Share this place",
+                            tint = Color.White
+                        )
+                    }
+
+                }
             }
         }
     }
