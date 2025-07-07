@@ -43,6 +43,13 @@ android {
 
 dependencies {
 
+// For normal Lottie animations
+    implementation("com.airbnb.android:lottie-compose:6.1.0")
+
+// For .lottie files and DotLottieAnimation
+    implementation("com.rajat.lottie:dotlottie-compose:1.0.0-beta05")
+
+
     implementation ("com.karumi:dexter:6.2.3")
     implementation(libs.places)
 
@@ -57,7 +64,6 @@ dependencies {
     implementation("io.coil-kt:coil-compose:2.7.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.9.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.9.1")
-
 
     implementation(platform("androidx.compose:compose-bom:2024.05.00"))
     implementation("androidx.compose.foundation:foundation")

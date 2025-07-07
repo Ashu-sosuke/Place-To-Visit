@@ -1,16 +1,19 @@
 package com.example.placetovisit
 
-import android.Manifest
+import android.app.DatePickerDialog
+
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
-import android.provider.Settings
+import android.widget.DatePicker
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.*
@@ -18,28 +21,38 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.core.content.FileProvider
+import androidx.core.net.toUri
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import coil.compose.rememberAsyncImagePainter
 import com.example.placetovisit.data.Place
 import java.io.File
-import java.text.SimpleDateFormat
 import java.util.*
+import android.provider.Settings
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddScreen(navController: NavController, viewModel: PlaceViewModel) {
+fun EditScreen(
+    place: Place,
+    navController: NavController,
+    viewModel: PlaceViewModel,
+
+) {
     var showSettingsDialog by remember { mutableStateOf(false) }
 
-    var title by remember { mutableStateOf("") }
-    var description by remember { mutableStateOf("") }
-    var date by remember { mutableStateOf("") }
-    var location by remember { mutableStateOf("") }
+    var title by remember { mutableStateOf(place.title) }
+    var description by remember { mutableStateOf(place.description) }
+    var date by remember { mutableStateOf(place.date) }
+    var location by remember { mutableStateOf(place.location) }
 
-    var imageUri by remember { mutableStateOf<Uri?>(null) }
+    var imageUri by remember { mutableStateOf<Uri?>(Uri.parse(place.imageUri)) }
     var showImagePicker by remember { mutableStateOf(false) }
     var photoFile by remember { mutableStateOf<File?>(null) }
 
@@ -159,7 +172,7 @@ fun AddScreen(navController: NavController, viewModel: PlaceViewModel) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Add Fav Places") },
+                title = { Text("Edit Place") },
                 navigationIcon = {
                     IconButton(onClick = {
                         navController.navigate(Screen.HomeScreen.route)
@@ -172,8 +185,7 @@ fun AddScreen(navController: NavController, viewModel: PlaceViewModel) {
                 )
             )
         }
-    )
-    { innerPadding ->
+    ) { innerPadding ->
         Column(
             modifier = Modifier
                 .padding(innerPadding)
@@ -270,7 +282,7 @@ fun AddScreen(navController: NavController, viewModel: PlaceViewModel) {
                         }
                     )
                 }) {
-                    Text("Add Image")
+                    Text("Change Image")
                 }
             }
 
@@ -281,14 +293,14 @@ fun AddScreen(navController: NavController, viewModel: PlaceViewModel) {
                     if (title.isNotBlank() && description.isNotBlank() && date.isNotBlank()
                         && location.isNotBlank() && imageUri != null
                     ) {
-                        val newPlace = Place(
+                        val updatedPlace = place.copy(
                             title = title,
                             description = description,
                             date = date,
                             location = location,
                             imageUri = imageUri.toString()
                         )
-                        viewModel.addPlace(newPlace)
+                        viewModel.updatePlace(updatedPlace)
                         navController.navigate(Screen.HomeScreen.route)
                     } else {
                         Toast.makeText(context, "Please fill all fields and add an image", Toast.LENGTH_SHORT).show()
@@ -296,29 +308,8 @@ fun AddScreen(navController: NavController, viewModel: PlaceViewModel) {
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text("Save")
+                Text("Update")
             }
         }
-    }
-}
-
-fun convertMillisToDate(millis: Long): String {
-    val formatter = SimpleDateFormat("MM/dd/yyyy", Locale.getDefault())
-    return formatter.format(Date(millis))
-}
-
-fun saveImageToDevice(context: Context, uri: Uri): Uri? {
-    return try {
-        val inputStream = context.contentResolver.openInputStream(uri)
-        val filename = "IMG_${System.currentTimeMillis()}.jpg"
-        val file = File(context.filesDir, filename)
-        val outputStream = file.outputStream()
-        inputStream?.copyTo(outputStream)
-        inputStream?.close()
-        outputStream.close()
-        Uri.fromFile(file)
-    } catch (e: Exception) {
-        e.printStackTrace()
-        null
     }
 }

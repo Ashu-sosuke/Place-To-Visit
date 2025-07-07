@@ -10,23 +10,25 @@ import kotlinx.coroutines.flow.Flow
 
 
 @Dao
-abstract class PlaceDAO {
+interface PlaceDAO {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    abstract suspend fun addPlace(placeEntity: Place)
+     suspend fun addPlace(placeEntity: Place)
 
     //Load all places from table
     @Query("SELECT * from `place-table`")
-    abstract fun getALlPlaces(): Flow<List<Place>>
+     fun getALlPlaces(): Flow<List<Place>>
 
     @Update
-    abstract suspend fun updatePlace(placeEntity: Place)
+     suspend fun updatePlace(place: Place)
 
     @Delete
-    abstract suspend fun deletePlace(placeEntity: Place)
+     suspend fun deletePlace(placeEntity: Place)
 
-    @Query("SELECT * from `place-table` where id=:id")
-    abstract fun getPlaceById(id: Long): Flow<Place>
+    @Query("SELECT * from `place-table` where id=:placeId LIMIT 1")
+     fun getPlaceById(placeId: Long): Flow<Place>
 
+    @Query("DELETE FROM `Place-table` where id = :id")
+    suspend fun deleteById(id: Long)
 
 }

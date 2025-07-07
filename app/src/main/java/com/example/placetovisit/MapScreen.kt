@@ -41,7 +41,6 @@ fun MapPickerScreen(
     var markerPosition by remember { mutableStateOf<LatLng?>(null) }
     val markerState = rememberMarkerState()
 
-    // Search
     var searchQuery by remember { mutableStateOf(TextFieldValue("")) }
     var suggestions by remember { mutableStateOf<List<AutocompletePrediction>>(emptyList()) }
 
@@ -52,7 +51,6 @@ fun MapPickerScreen(
         Places.createClient(context)
     }
 
-    // Location permission
     val locationPermissionLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { granted ->
@@ -159,6 +157,8 @@ fun MapPickerScreen(
                     onMapClick = {
                         markerPosition = it
                         markerState.position = it
+                        cameraPositionState.position = CameraPosition.fromLatLngZoom(it, 15f)
+
                     }
                 ) {
                     markerPosition?.let {
@@ -170,7 +170,6 @@ fun MapPickerScreen(
                     }
                 }
 
-                // ✅ Confirm Button
                 Button(
                     onClick = {
                         markerPosition?.let {
@@ -183,13 +182,12 @@ fun MapPickerScreen(
                         .padding(16.dp)
                         .fillMaxWidth()
                 ) {
-                    Text("Confirm Location")
+                    Text("Save Location")
                 }
             }
         }
     }
 
-    // Sync `markerPosition` with `markerState.position`
     LaunchedEffect(markerState.position) {
         markerPosition = markerState.position
     }

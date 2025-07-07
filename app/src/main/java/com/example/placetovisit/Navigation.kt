@@ -1,15 +1,14 @@
 package com.example.placetovisit
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavDestination
 import androidx.navigation.NavHostController
-import androidx.navigation.Navigation
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.google.android.gms.maps.model.LatLng
+import com.example.placetovisit.data.Place
 
 @Composable
 fun Navigation(
@@ -29,6 +28,23 @@ fun Navigation(
                 navController = navController,
                 viewModel = placeViewModel
             )
+        }
+        composable(route = "editscreen/{placeId}") { backStackEntry ->
+            val placeId = backStackEntry.arguments?.getString("placeId")?.toLongOrNull()
+
+            if (placeId != null) {
+                val placeFlow = placeViewModel.getPlaceById(placeId)
+                val placeState = placeFlow.collectAsState(initial = null)
+                val place = placeState.value
+
+                if (place != null) {
+                    EditScreen(
+                        place = place,
+                        navController = navController,
+                        viewModel = placeViewModel
+                    )
+                }
+            }
         }
     }
 }

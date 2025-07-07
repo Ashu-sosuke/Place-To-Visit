@@ -10,14 +10,15 @@ class PlaceRepository(private val placeDAO: PlaceDAO) {
 
     fun getPlaces(): Flow<List<Place>> = placeDAO.getALlPlaces()
 
-    fun getPlaceById(id: Long) : Flow<Place> {
-        return placeDAO.getPlaceById(id)
+    fun getPlaceById(placeId: Long): Flow<Place?> {
+        return placeDAO.getPlaceById(placeId)
     }
-
-    suspend fun updateAPlace(place: Place){
+    suspend fun deletePlaceById(id: Long) {
+        placeDAO.deleteById(id)
+    }
+    suspend fun updatePlace(place: Place) {
         placeDAO.updatePlace(place)
     }
-    suspend fun deleteAPlace(place: Place){
-        placeDAO.deletePlace(place)
-    }
+
+
 }

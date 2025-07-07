@@ -29,20 +29,25 @@ class PlaceViewModel(
             placeRepository.addPlace(place = place)
         }
     }
-    fun updatePlace(place: Place){
+
+    fun getPlaceById(placeId: Long): Flow<Place?> {
+        return placeRepository.getPlaceById(placeId)
+    }
+
+    fun deletePlaceByIds(ids: List<Long>){
         viewModelScope.launch(Dispatchers.IO) {
-            placeRepository.updateAPlace(place = place)
+            ids.forEach { id->
+                placeRepository.deletePlaceById(id)
+            }
         }
     }
 
-    fun getAPlaceById(id: Long): Flow<Place>{
-        return placeRepository.getPlaceById(id)
-    }
-    fun deletePlace(place: Place){
+    fun updatePlace(place: Place) {
         viewModelScope.launch(Dispatchers.IO) {
-            placeRepository.deleteAPlace(place = place)
+            placeRepository.updatePlace(place)
         }
     }
+
 
     private val _selectedLatLng = mutableStateOf<LatLng?>(null)
     val selectedLatLng: State<LatLng?> = _selectedLatLng
