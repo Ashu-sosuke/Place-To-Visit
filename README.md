@@ -69,6 +69,4 @@
 ---
 
 ## 📸 Screenshots
-
-> *(Place your screenshots inside a `/screenshots` folder and use correct relative paths)*
 ![image](https://github.com/user-attachments/assets/170aef04-203e-41a8-8eab-69a0dbb5773b)
