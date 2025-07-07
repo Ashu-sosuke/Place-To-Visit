@@ -46,13 +46,7 @@ ou can [Download the latest release APK here](https://github.com/Ashu-sosuke/Pla
 
 ---
 
-## 📸 Screenshots
 
-> _Add screenshots later to visually showcase the UI_
-
-
-
----
 
 ## 📸 Screenshots
 
