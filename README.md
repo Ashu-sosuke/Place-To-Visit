@@ -1,55 +1,74 @@
-# 📍 Place to Visit
+<h1 align="center">PLACE-TO-VISIT</h1>
+<p align="center"><em>Discover, Share, Inspire Your Next Adventure</em></p>
 
-A modern and intuitive Android app to document and share your favorite travel spots — built using **Jetpack Compose** and **Material 3**. Capture memories with a photo, title, description, location, and date — all in one place!
+<p align="center">
+  <img src="https://img.shields.io/github/last-commit/Ashu-sosuke/Place-To-Visit?style=for-the-badge" />
+  <img src="https://img.shields.io/github/languages/top/Ashu-sosuke/Place-To-Visit?color=blue&style=for-the-badge" />
+  <img src="https://img.shields.io/github/languages/count/Ashu-sosuke/Place-To-Visit?style=for-the-badge" />
+</p>
 
-> 🧭 Add, view, edit, and delete your favorite places with image support, map location picker, and smooth Material UI.
+<p align="center"><em>Built with the tools and technologies:</em></p>
 
----
-
-## 🌟 Features
-
-- ➕ **Add New Places**: Title, description, date, photo, and map location
-- 🖼️ **Camera & Gallery Support**: Capture or pick an image for each place
-- 🗺️ **Map Picker**: Select location interactively using Google Maps
-- 📅 **Date Picker**: Choose visit date with Material date selector
-- ✏️ **Tap to Edit**: Long press to enter selection mode and update or delete
-- 🧹 **Long Press to Delete**: Select place(s) via long press and remove them
-- 🎨 **Material 3 UI**: Clean, modern interface using Compose
-- 📱 **Responsive Layout**: Adapts across screen sizes and orientations
-
----
-
-## 🧰 Tech Stack
-
-- ⚙️ **Jetpack Compose** (UI)
-- 🧭 **Google Maps** (Location Picker)
-- 📷 **CameraX + Gallery** (Image Capture & Selection)
-- 🧾 **Material 3 Components**
-- 🧠 **MVVM Architecture**
-- 💾 **Room / DataStore** (if added later)
+<p align="center">
+  <img src="https://img.shields.io/badge/Markdown-000000?style=for-the-badge&logo=markdown" />
+  <img src="https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white" />
+  <img src="https://img.shields.io/badge/Gradle-02303A?style=for-the-badge&logo=gradle" />
+  <img src="https://img.shields.io/badge/XML-00599C?style=for-the-badge&logo=xml&logoColor=white" />
+  <img src="https://img.shields.io/badge/Google-4285F4?style=for-the-badge&logo=google&logoColor=white" />
+  <img src="https://img.shields.io/badge/Kotlin-7F52FF?style=for-the-badge&logo=kotlin&logoColor=white" />
+</p>
 
 ---
 
-## 🔜 Upcoming Features
+## 📚 Table of Contents
 
-- 🖼️ **Share as Image**: Share your travel cards as images to social apps
-- ☁️ **Cloud Sync**: Backup places to Firebase (planned)
-- 🔎 **Search & Filter**: Quickly find places by title or date
-
----
-
-## 📦 APK Download
-
-ou can [Download the latest release APK here](https://github.com/Ashu-sosuke/Place-To-Visit/releases/tag/v1)
-
-[![Download APK](https://img.shields.io/badge/Download-PlaceToVisit-blue?logo=android)](https://github.com/Ashu-sosuke/Place-To-Visit/releases/tag/v1)
+- [Overview](#overview)
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Download APK](#download-apk)
+- [Screenshots](#screenshots)
+- [Author](#author)
+- [License](#license)
 
 ---
 
+## 🗺️ Overview
 
+**Place-To-Visit** is a modern Android app where users can save and relive their favorite travel destinations with photos, location maps, descriptions, and dates. Built with Jetpack Compose and designed using Material 3.
+
+---
+
+## ✨ Features
+
+- 📝 Add new places with image, title, date, and description  
+- 📸 Choose from **camera** or **gallery**
+- 🗺️ Select exact **location using map**
+- 📅 Pick date of visit
+- ✏️ Tap to **edit** a saved place
+- 🧹 Long-press to **delete** an entry
+- 🎨 Fully built with **Jetpack Compose & Material 3**
+- ⚡ Clean and responsive UI for all screen sizes
+
+---
+
+## 🛠 Tech Stack
+
+- 🧩 Jetpack Compose
+- 📦 MVVM Architecture
+- 🌍 Google Maps SDK
+- 📷 CameraX / MediaStore Intents
+- 🎨 Material 3 Components
+- 🗃️ Kotlin DSL & Gradle
+
+---
+
+## 📦 Download APK
+
+[![Download APK](https://img.shields.io/badge/Download-v1-blue?style=for-the-badge&logo=android)](https://github.com/Ashu-sosuke/Place-To-Visit/releases/tag/v1)
+
+---
 
 ## 📸 Screenshots
 
-![image](https://github.com/user-attachments/assets/ad04ccb7-1ac2-442d-8592-32fe879db46a)
-
+![image](https://github.com/user-attachments/assets/6a654da6-7c62-4013-9345-be6c7901d62c)
 
