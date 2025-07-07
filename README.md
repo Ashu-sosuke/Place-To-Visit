@@ -22,43 +22,43 @@
 
 ## 📚 Table of Contents
 
-- [Overview](#overview)
-- [Features](#features)
-- [Tech Stack](#tech-stack)
-- [Download APK](#download-apk)
-- [Screenshots](#screenshots)
-- [Author](#author)
-- [License](#license)
+- [🗺️ Overview](#️-overview)
+- [✨ Features](#-features)
+- [🛠 Tech Stack](#-tech-stack)
+- [📦 Download APK](#-download-apk)
+- [📸 Screenshots](#-screenshots)
+- [🙋‍♂️ Author](#-author)
+- [⚖️ License](#-license)
 
 ---
 
 ## 🗺️ Overview
 
-**Place-To-Visit** is a modern Android app where users can save and relive their favorite travel destinations with photos, location maps, descriptions, and dates. Built with Jetpack Compose and designed using Material 3.
+**Place-To-Visit** is a modern Android app to **save your travel memories** with photos, titles, locations, dates, and descriptions. Powered by **Jetpack Compose** and **Material 3**, it offers a clean and intuitive UI.
 
 ---
 
 ## ✨ Features
 
 - 📝 Add new places with image, title, date, and description  
-- 📸 Choose from **camera** or **gallery**
-- 🗺️ Select exact **location using map**
-- 📅 Pick date of visit
-- ✏️ Tap to **edit** a saved place
-- 🧹 Long-press to **delete** an entry
-- 🎨 Fully built with **Jetpack Compose & Material 3**
-- ⚡ Clean and responsive UI for all screen sizes
+- 📸 Pick image from **camera or gallery**
+- 🗺️ Select location using **Google Map**
+- 📅 Set the **date of visit**
+- ✏️ **Tap to edit** saved entries
+- 🗑️ **Long-press to delete**
+- 🎨 **Material You** design with Jetpack Compose
+- 📲 Fully responsive UI for all devices
 
 ---
 
 ## 🛠 Tech Stack
 
-- 🧩 Jetpack Compose
-- 📦 MVVM Architecture
+- 📍 Jetpack Compose
+- 🧠 MVVM Architecture
 - 🌍 Google Maps SDK
-- 📷 CameraX / MediaStore Intents
-- 🎨 Material 3 Components
-- 🗃️ Kotlin DSL & Gradle
+- 📷 CameraX & MediaStore
+- 🎨 Material 3
+- 🧪 Kotlin + Gradle
 
 ---
 
@@ -70,5 +70,5 @@
 
 ## 📸 Screenshots
 
-![image](https://github.com/user-attachments/assets/6a654da6-7c62-4013-9345-be6c7901d62c)
-
+> *(Place your screenshots inside a `/screenshots` folder and use correct relative paths)*
+![image](https://github.com/user-attachments/assets/170aef04-203e-41a8-8eab-69a0dbb5773b)
