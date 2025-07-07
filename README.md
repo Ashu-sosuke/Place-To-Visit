@@ -40,9 +40,9 @@ A modern and intuitive Android app to document and share your favorite travel sp
 
 ## 📦 APK Download
 
-You can [Download the latest APK here](https://github.com/YourUsername/PlaceToVisit/releases/latest).
+ou can [Download the latest release APK here](https://github.com/Ashu-sosuke/Place-To-Visit/releases/tag/v1)
 
-[![Download APK](https://img.shields.io/badge/Download-PlaceToVisit-blue)](https://github.com/YourUsername/PlaceToVisit/releases/latest)
+[![Download APK](https://img.shields.io/badge/Download-PlaceToVisit-blue?logo=android)](https://github.com/Ashu-sosuke/Place-To-Visit/releases/tag/v1)
 
 ---
 
